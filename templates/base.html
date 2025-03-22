@@ -26,11 +26,10 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url_for('admin_dashboard') }}">{{ _('admin_dashboard') }}</a>
                             </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('moderator_select_quiz') }}">{{ _('moderator_panel') }}</a>
-                            </li>
                         {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('moderator_select_quiz') }}">{{ _('moderator_panel') }}</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('logout') }}">{{ _('logout') }}</a>
                         </li>
@@ -49,8 +48,8 @@
                             {% endif %}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                            <li><a class="dropdown-item" href="{{ url_for(request.endpoint, lang='en') if request.endpoint else '/?lang=en' }}">English</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for(request.endpoint, lang='ru') if request.endpoint else '/?lang=ru' }}">Русский</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for(request.endpoint, lang='en', **request.view_args) if request.endpoint else '/?lang=en' }}">English</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for(request.endpoint, lang='ru', **request.view_args) if request.endpoint else '/?lang=ru' }}">Русский</a></li>
                         </ul>
                     </li>
                 </ul>
