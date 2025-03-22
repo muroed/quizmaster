@@ -3,11 +3,11 @@
 {% block content %}
 <div class="row">
     <div class="col-12">
-        <h2>Create New Quiz</h2>
+        <h2>{{ _('create_quiz') }}</h2>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Create New Quiz</li>
+                <li class="breadcrumb-item"><a href="{{ url_for('admin_dashboard') }}">{{ _('admin_dashboard') }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ _('create_quiz') }}</li>
             </ol>
         </nav>
     </div>
@@ -17,21 +17,21 @@
     <div class="col-md-8 mx-auto">
         <div class="card">
             <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Quiz Details</h5>
+                <h5 class="mb-0">{{ _('quiz_title') }}</h5>
             </div>
             <div class="card-body">
                 <form method="POST" action="{{ url_for('create_quiz') }}">
                     <div class="mb-3">
-                        <label for="title" class="form-label">Quiz Title</label>
+                        <label for="title" class="form-label">{{ _('quiz_title') }}</label>
                         <input type="text" class="form-control" id="title" name="title" required>
                     </div>
                     <div class="mb-3">
-                        <label for="description" class="form-label">Description (Optional)</label>
+                        <label for="description" class="form-label">{{ _('quiz_description') }}</label>
                         <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                     </div>
                     <div class="text-end">
-                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary me-2">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Create Quiz</button>
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary me-2">{{ _('back') }}</a>
+                        <button type="submit" class="btn btn-primary">{{ _('create_quiz') }}</button>
                     </div>
                 </form>
             </div>
@@ -43,10 +43,10 @@
     <div class="col-md-8 mx-auto">
         <div class="card">
             <div class="card-header bg-info text-white">
-                <h5 class="mb-0">Quiz Creation Guidelines</h5>
+                <h5 class="mb-0">{{ _('admin_instructions') }}</h5>
             </div>
             <div class="card-body">
-                <h6>Tips for Creating Effective Quizzes:</h6>
+                <h6>{{ _('manage_quizzes') }}</h6>
                 <ul>
                     <li>Choose a clear, descriptive title that reflects the quiz content.</li>
                     <li>Add a brief description to help moderators understand the quiz's purpose and audience.</li>

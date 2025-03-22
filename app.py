@@ -1,6 +1,6 @@
 import os
 import logging
-from flask import Flask
+from flask import Flask, request, session
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
@@ -17,6 +17,22 @@ db = SQLAlchemy(model_class=Base)
 # Create Flask app
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key")
+
+# Import translations
+from translations import Translation
+
+# Language detection
+@app.before_request
+def detect_language():
+    # Get language from request header or use session language
+    lang = request.args.get('lang', session.get('lang', 'en'))
+    
+    # Only allow supported languages
+    if lang not in ['en', 'ru']:
+        lang = 'en'
+    
+    # Store in session
+    session['lang'] = lang
 
 # Configure database
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(

@@ -9,6 +9,18 @@ from sqlalchemy import desc
 from app import app, db
 from models import User, Quiz, Question, Answer, Game, Team, TeamAnswer
 from utils import login_required, admin_required, moderator_required
+from translations import Translation
+
+# Helper function to get translation
+def _(key):
+    """Get translation for key based on current session language"""
+    lang = session.get('lang', 'en')
+    return Translation.get(key, lang)
+
+# Make translation function available in all templates
+@app.context_processor
+def inject_translation_function():
+    return {'_': _}
 
 # Home route
 @app.route('/')
