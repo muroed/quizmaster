@@ -13,6 +13,9 @@ class Translation:
             'welcome': 'Welcome to QuizMaster',
             'description': 'A real-time quiz management system with admin, moderator, and participant panels.',
             'description_long': 'Create and manage quizzes, run live quiz sessions, and engage participants in real-time.',
+            'card_create_description': 'Design engaging quizzes with various question types including text, single-choice, and multiple-choice.',
+            'card_host_description': 'Run live quiz sessions with real-time updates and instant feedback for participants.',
+            'card_team_description': 'Participants can join with team names, answer questions, and compete in real-time.',
             
             # Navigation
             'login': 'Login',
@@ -107,6 +110,9 @@ class Translation:
             'welcome': 'Добро пожаловать в КвизМастер',
             'description': 'Система управления викторинами в реальном времени с панелями администратора, модератора и участника.',
             'description_long': 'Создавайте и управляйте викторинами, проводите сессии в реальном времени и вовлекайте участников.',
+            'card_create_description': 'Создавайте увлекательные викторины с различными типами вопросов, включая текстовые ответы, выбор одного или нескольких вариантов.',
+            'card_host_description': 'Проводите викторины в реальном времени с мгновенными обновлениями и обратной связью для участников.',
+            'card_team_description': 'Участники могут присоединяться с названиями команд, отвечать на вопросы и соревноваться в реальном времени.',
             
             # Navigation
             'login': 'Вход',
