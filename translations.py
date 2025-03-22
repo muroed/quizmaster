@@ -128,6 +128,16 @@ class Translation:
             'final_score': 'Final Score',
             'team_score': 'Score',
             'game_info': 'Game Info',
+            'game_waiting_message': 'This game is waiting to start. Enter your team name to join.',
+            'game_active_message': 'This game is currently active. Join now to participate!',
+            'team_name_help': 'Choose a unique team name for this quiz.',
+            'participant_step1': 'Enter your team name and join the game.',
+            'participant_step2': 'Wait for the moderator to start the quiz.',
+            'participant_step3': 'When a question appears, submit your answer before the time runs out.',
+            'participant_step4': 'For multiple choice questions, select the correct answer(s).',
+            'participant_step5': 'For text questions, type in your answer.',
+            'participant_step6': 'Points will be awarded for correct answers.',
+            'participant_step7': 'Keep an eye on the leaderboard to see how your team is doing.',
             
             # Status
             'waiting': 'Waiting',
@@ -255,6 +265,16 @@ class Translation:
             'final_score': 'Итоговый счет',
             'team_score': 'Счет',
             'game_info': 'Информация об игре',
+            'game_waiting_message': 'Эта игра ожидает начала. Введите название команды, чтобы присоединиться.',
+            'game_active_message': 'Эта игра уже активна. Присоединяйтесь сейчас, чтобы участвовать!',
+            'team_name_help': 'Выберите уникальное название команды для этой викторины.',
+            'participant_step1': 'Введите название команды и присоединитесь к игре.',
+            'participant_step2': 'Дождитесь, пока модератор начнет викторину.',
+            'participant_step3': 'Когда появится вопрос, отправьте ответ до истечения времени.',
+            'participant_step4': 'Для вопросов с выбором вариантов выберите правильный ответ(ы).',
+            'participant_step5': 'Для текстовых вопросов введите свой ответ.',
+            'participant_step6': 'За правильные ответы будут начисляться баллы.',
+            'participant_step7': 'Следите за таблицей лидеров, чтобы видеть, как выступает ваша команда.',
             
             # Status
             'waiting': 'Ожидание',
