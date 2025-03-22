@@ -24,15 +24,15 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h5 class="mb-0">Status: 
+                        <h5 class="mb-0">{{ _('status') }}: 
                             <span class="badge {% if game.status == 'waiting' %}bg-warning{% elif game.status == 'active' %}bg-success{% else %}bg-secondary{% endif %}">
-                                {{ game.status|title }}
+                                {{ _(game.status) }}
                             </span>
                         </h5>
                     </div>
                     <div id="questionCounter">
                         {% if current_question %}
-                            Question: {{ game.current_question }}
+                            {{ _('question') }}: {{ game.current_question }}
                         {% endif %}
                     </div>
                 </div>
@@ -46,21 +46,21 @@
     <div class="col-md-8">
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Current Question</h5>
+                <h5 class="mb-0">{{ _('current_question') }}</h5>
             </div>
             <div class="card-body">
                 <div id="questionDisplay">
                     {% if game.status == 'waiting' %}
                         <div class="alert alert-info text-center py-5">
                             <i class="bi bi-hourglass-split fs-1 d-block mb-3"></i>
-                            <h4>Waiting for the game to start...</h4>
-                            <p>The first question will appear here once the moderator starts the game.</p>
+                            <h4>{{ _('waiting_for_game') }}</h4>
+                            <p>{{ _('first_question_appear') }}</p>
                         </div>
                     {% elif game.status == 'completed' %}
                         <div class="alert alert-secondary text-center py-5">
                             <i class="bi bi-flag-fill fs-1 d-block mb-3"></i>
-                            <h4>Game Over!</h4>
-                            <p>The quiz has been completed. Check the leaderboard to see your final position.</p>
+                            <h4>{{ _('game_over') }}</h4>
+                            <p>{{ _('final_results') }}</p>
                         </div>
                     {% elif current_question %}
                         <h3>{{ current_question.question_text }}</h3>
@@ -93,7 +93,7 @@
                         <form id="answerForm" class="mt-4" data-question-id="{{ current_question.id }}" data-team-id="{{ team.id }}">
                             {% if current_question.question_type == 'text' %}
                                 <div class="mb-3">
-                                    <label for="textAnswer" class="form-label">Your Answer</label>
+                                    <label for="textAnswer" class="form-label">{{ _('your_answer') }}</label>
                                     <textarea class="form-control" id="textAnswer" name="text_answer" rows="3" required></textarea>
                                 </div>
                             
@@ -153,12 +153,12 @@
                         {% else %}
                             <div class="alert alert-success text-center py-4 mt-4">
                                 <i class="bi bi-check-circle-fill fs-1 d-block mb-2"></i>
-                                <h4>Answer Submitted!</h4>
-                                <p>Waiting for the next question...</p>
+                                <h4>{{ _('answer_submitted') }}</h4>
+                                <p>{{ _('waiting_next') }}</p>
                                 
                                 {% if current_question.team_answer and current_question.team_answer.is_correct %}
                                     <div class="mt-2">
-                                        <span class="badge bg-success">Correct Answer! +{{ current_question.team_answer.points_awarded }} points</span>
+                                        <span class="badge bg-success">{{ _('correct_answer') }}! +{{ current_question.team_answer.points_awarded }} {{ _('points') }}</span>
                                     </div>
                                 {% endif %}
                             </div>
