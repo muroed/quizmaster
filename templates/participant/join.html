@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Join Quiz Game</h4>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <h5>Game Code: <span class="badge bg-primary">{{ game.game_code }}</span></h5>
+                    <p class="lead">Quiz: {{ game.quiz.title }}</p>
+                    
+                    {% if game.status == 'waiting' %}
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i> This game is waiting to start. Enter your team name to join.
+                        </div>
+                    {% elif game.status == 'active' %}
+                        <div class="alert alert-success">
+                            <i class="bi bi-play-fill me-2"></i> This game is currently active. Join now to participate!
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <form method="POST" action="{{ url_for('register_team') }}">
+                    <input type="hidden" name="game_id" value="{{ game.id }}">
+                    
+                    <div class="mb-3">
+                        <label for="team_name" class="form-label">Team Name</label>
+                        <input type="text" class="form-control" id="team_name" name="team_name" required>
+                        <div class="form-text">Choose a unique team name for this quiz.</div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-controller me-2"></i> Join Game
+                        </button>
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-2"></i> Back to Home
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">How to Play</h5>
+            </div>
+            <div class="card-body">
+                <ol>
+                    <li>Enter your team name and join the game.</li>
+                    <li>Wait for the moderator to start the quiz.</li>
+                    <li>When a question appears, submit your answer before the time runs out.</li>
+                    <li>For multiple choice questions, select the correct answer(s).</li>
+                    <li>For text questions, type in your answer.</li>
+                    <li>Points will be awarded for correct answers.</li>
+                    <li>Keep an eye on the leaderboard to see how your team is doing.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2>Admin Dashboard</h2>
+        <p class="lead">Manage your quizzes and create new ones.</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{{ url_for('create_quiz') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Create New Quiz
+        </a>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        {% if quizzes %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Questions</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for quiz in quizzes %}
+                        <tr>
+                            <td>{{ quiz.title }}</td>
+                            <td>{{ quiz.description | truncate(50) }}</td>
+                            <td>{{ quiz.questions | length }}</td>
+                            <td>{{ quiz.created_at.strftime('%Y-%m-%d') }}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{{ url_for('edit_quiz', quiz_id=quiz.id) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    
+                                    <button type="button" class="btn btn-sm btn-outline-danger" 
+                                            data-bs-toggle="modal" data-bs-target="#deleteQuizModal{{ quiz.id }}">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                </div>
+                                
+                                <!-- Delete Quiz Modal -->
+                                <div class="modal fade" id="deleteQuizModal{{ quiz.id }}" tabindex="-1" aria-labelledby="deleteQuizModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteQuizModalLabel">Confirm Delete</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete the quiz "{{ quiz.title }}"? This action cannot be undone.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <form action="{{ url_for('delete_quiz', quiz_id=quiz.id) }}" method="POST">
+                                                    <button type="submit" class="btn btn-danger">Delete Quiz</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle me-2"></i> You haven't created any quizzes yet. 
+                <a href="{{ url_for('create_quiz') }}" class="alert-link">Create your first quiz</a>.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Admin Instructions</h5>
+            </div>
+            <div class="card-body">
+                <h6>Creating a Quiz:</h6>
+                <ol>
+                    <li>Click the "Create New Quiz" button above.</li>
+                    <li>Enter a title and optional description for your quiz.</li>
+                    <li>Add questions with various types: text, single-choice, or multiple-choice.</li>
+                    <li>For each question, you can add images, audio, or video content.</li>
+                    <li>Set the correct answers and point values for each question.</li>
+                </ol>
+                
+                <h6>Managing Quizzes:</h6>
+                <ol>
+                    <li>Edit existing quizzes to update questions, answers, or media.</li>
+                    <li>Delete quizzes that are no longer needed.</li>
+                    <li>View the list of all your quizzes in the table above.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2>Moderating: {{ quiz.title }}</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('moderator_select_quiz') }}">Moderator Panel</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Game {{ game.game_code }}</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{{ url_for('moderator_select_quiz') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Panel
+        </a>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <!-- Game Info -->
+    <div class="col-md-12 mb-4">
+        <div class="card bg-dark text-white">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-4">
+                        <h5 class="card-title mb-0">Game Code: <span class="badge bg-primary">{{ game.game_code }}</span></h5>
+                        <p class="mb-0">Status: <span class="badge {% if game.status == 'waiting' %}bg-warning{% elif game.status == 'active' %}bg-success{% else %}bg-secondary{% endif %}">{{ game.status }}</span></p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h5 class="card-title">Join Link</h5>
+                        <div class="input-group">
+                            <input type="text" id="joinLink" class="form-control" value="{{ url_for('join_game_by_code', game_code=game.game_code, _external=True) }}" readonly>
+                            <button class="btn btn-outline-light" type="button" id="copyLinkBtn">
+                                <i class="bi bi-clipboard"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        {% if game.status == 'waiting' %}
+                            <button id="startGameBtn" class="btn btn-success me-2" data-game-id="{{ game.id }}">
+                                <i class="bi bi-play-fill"></i> Start Game
+                            </button>
+                        {% elif game.status == 'active' %}
+                            <button id="endGameBtn" class="btn btn-danger me-2" data-game-id="{{ game.id }}">
+                                <i class="bi bi-stop-fill"></i> End Game
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Question Navigation and Display -->
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    Question Control 
+                    {% if game.current_question > 0 %}
+                        <span class="badge bg-light text-dark">{{ game.current_question }}/{{ questions|length }}</span>
+                    {% endif %}
+                </h5>
+                <div class="btn-group">
+                    <button id="prevQuestionBtn" class="btn btn-sm btn-light" {% if game.current_question <= 1 or game.status != 'active' %}disabled{% endif %} data-game-id="{{ game.id }}">
+                        <i class="bi bi-chevron-left"></i> Previous
+                    </button>
+                    <button id="nextQuestionBtn" class="btn btn-sm btn-light" {% if game.current_question >= questions|length or game.status != 'active' %}disabled{% endif %} data-game-id="{{ game.id }}">
+                        Next <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if game.status == 'waiting' %}
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i> The game hasn't started yet. Click "Start Game" when all teams have joined.
+                    </div>
+                {% elif current_question %}
+                    <div id="questionDisplay">
+                        <h4>{{ current_question.question_text }}</h4>
+                        
+                        <div class="my-3">
+                            <span class="badge bg-secondary">{{ current_question.question_type|replace('_', ' ')|title }}</span>
+                            <span class="badge bg-info">{{ current_question.points }} points</span>
+                        </div>
+                        
+                        {% if current_question.media_url %}
+                        <div class="mt-3 mb-4 text-center">
+                            {% if current_question.media_type == 'image' %}
+                                <img src="{{ current_question.media_url }}" alt="Question media" class="img-fluid rounded" style="max-height: 300px;">
+                            {% elif current_question.media_type == 'audio' %}
+                                <audio controls class="w-100">
+                                    <source src="{{ current_question.media_url }}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            {% elif current_question.media_type == 'video' %}
+                                <video controls class="w-100" style="max-height: 300px;">
+                                    <source src="{{ current_question.media_url }}" type="video/mp4">
+                                    Your browser does not support the video element.
+                                </video>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        
+                        {% if current_question.question_type in ['single_choice', 'multiple_choice'] %}
+                            <div class="mt-4">
+                                <h5>Answer Options</h5>
+                                <ul class="list-group">
+                                    {% for answer in current_question.answers %}
+                                    <li class="list-group-item {% if answer.is_correct %}list-group-item-success{% endif %}">
+                                        {{ answer.answer_text }}
+                                        {% if answer.is_correct %}
+                                            <span class="badge bg-success float-end">Correct</span>
+                                        {% endif %}
+                                        
+                                        {% if answer.media_url %}
+                                        <div class="mt-2">
+                                            <img src="{{ answer.media_url }}" alt="Answer media" class="img-thumbnail" style="max-height: 100px;">
+                                        </div>
+                                        {% endif %}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% elif current_question.question_type == 'text' %}
+                            <div class="alert alert-warning mt-3">
+                                <i class="bi bi-exclamation-triangle me-2"></i> This is a text-answer question. 
+                                You'll need to manually review team answers and award points accordingly.
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-secondary">
+                        <i class="bi bi-question-circle me-2"></i> No question is currently being displayed.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Team Responses Section -->
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Team Responses</h5>
+            </div>
+            <div class="card-body">
+                <div id="teamResponses">
+                    {% if teams|length > 0 %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Team</th>
+                                        <th>Status</th>
+                                        <th>Answer</th>
+                                        <th>Award Points</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="responsesTableBody">
+                                    {% for team in teams %}
+                                    <tr data-team-id="{{ team.id }}">
+                                        <td>{{ team.name }}</td>
+                                        <td class="answer-status">
+                                            <span class="badge bg-secondary">Waiting</span>
+                                        </td>
+                                        <td class="team-answer">-</td>
+                                        <td>
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="form-control form-control-sm points-input" min="0" value="1">
+                                                <button class="btn btn-sm btn-outline-success award-points-btn" data-team-id="{{ team.id }}" {% if not current_question %}disabled{% endif %}>
+                                                    <i class="bi bi-plus-circle"></i> Award
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i> No teams have joined yet. Share the join link to get started.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Leaderboard and Teams -->
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Leaderboard</h5>
+            </div>
+            <div class="card-body">
+                <div id="leaderboardContainer">
+                    {% if teams|length > 0 %}
+                        <div class="list-group">
+                            {% for team in teams|sort(attribute='score', reverse=true) %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center" data-team-id="{{ team.id }}">
+                                <span>
+                                    {% if loop.index <= 3 %}
+                                        <i class="bi bi-trophy-fill me-2 {% if loop.index == 1 %}text-warning{% elif loop.index == 2 %}text-secondary{% elif loop.index == 3 %}text-danger{% endif %}"></i>
+                                    {% else %}
+                                        <span class="me-2">{{ loop.index }}.</span>
+                                    {% endif %}
+                                    {{ team.name }}
+                                </span>
+                                <span class="badge bg-primary team-score">{{ team.score }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i> No teams have joined yet.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Question Navigator -->
+        <div class="card mb-4">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Question Navigator</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap gap-2" id="questionNavigator">
+                    {% for question in questions %}
+                    <button class="btn btn-sm 
+                            {% if game.current_question == question.order %}
+                                btn-primary
+                            {% else %}
+                                btn-outline-secondary
+                            {% endif %}"
+                            data-question-index="{{ question.order }}"
+                            data-game-id="{{ game.id }}"
+                            {% if game.status != 'active' %}disabled{% endif %}>
+                        {{ question.order }}
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Connected Teams -->
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Connected Teams</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group" id="connectedTeams">
+                    {% for team in teams %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ team.name }}
+                        <small class="text-muted">Joined {{ team.joined_at.strftime('%H:%M') }}</small>
+                    </li>
+                    {% endfor %}
+                </ul>
+                
+                {% if teams|length == 0 %}
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i> No teams have joined yet.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Result Modal -->
+<div class="modal fade" id="gameResultModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Game Results</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="resultContent">
+                    <!-- Will be populated with results -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{{ url_for('moderator_select_quiz') }}" class="btn btn-primary">Back to Moderator Panel</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/socket.js') }}"></script>
+<script src="{{ url_for('static', filename='js/moderator.js') }}"></script>
+<script>
+    // Initialize the game connection
+    document.addEventListener('DOMContentLoaded', function() {
+        // Connect to socket
+        initializeSocket();
+        
+        // Join the game room
+        socket.on('connect', function() {
+            socket.emit('join_game', {
+                game_id: {{ game.id }},
+                role: 'moderator'
+            });
+        });
+        
+        // Initialize the moderator UI
+        initModeratorUI({{ game.id }}, {{ game.current_question }}, {{ questions|length }});
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,173 @@
+/**
+ * Custom styles for the quiz application
+ */
+
+/* Answer card styling */
+.answer-card {
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border-width: 2px;
+}
+
+.answer-card:hover {
+    border-color: var(--bs-primary);
+}
+
+.answer-card .form-check {
+    padding-left: 0;
+}
+
+.answer-card .form-check-input {
+    position: absolute;
+    right: 1rem;
+}
+
+.answer-card .form-check-label {
+    cursor: pointer;
+    display: block;
+    padding-right: 2rem;
+}
+
+/* Leaderboard styling */
+.list-group-item.list-group-item-primary {
+    background-color: rgba(13, 110, 253, 0.15);
+}
+
+/* Game controls */
+.question-controls {
+    position: sticky;
+    top: 1rem;
+    z-index: 100;
+}
+
+/* Media containers */
+.media-container {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+/* Responsive table scrolling for small screens */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Make sure images don't overflow on small screens */
+img.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Animation for correct answers */
+@keyframes pulse-success {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.badge.bg-success {
+    animation: pulse-success 1s ease-in-out;
+}
+
+/* Points awarded animation */
+@keyframes points-awarded {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+.points-notification {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050;
+    animation: points-awarded 2s ease-in-out forwards;
+}
+
+/* Quiz result styles */
+.result-team-highlight {
+    font-weight: bold;
+    background-color: rgba(13, 110, 253, 0.15);
+}
+
+/* Trophy icons */
+.text-trophy-gold {
+    color: #FFD700;
+}
+
+.text-trophy-silver {
+    color: #C0C0C0;
+}
+
+.text-trophy-bronze {
+    color: #CD7F32;
+}
+
+/* Answer navigation dots */
+.question-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.question-dot.current {
+    background-color: var(--bs-primary);
+}
+
+.question-dot.answered {
+    background-color: var(--bs-success);
+}
+
+.question-dot.unanswered {
+    background-color: var(--bs-secondary);
+    opacity: 0.5;
+}
+
+/* Media queries for better responsiveness */
+@media (max-width: 767.98px) {
+    .answer-card .form-check-input {
+        position: static;
+        margin-right: 0.5rem;
+    }
+    
+    .answer-card .form-check-label {
+        padding-right: 0;
+    }
+    
+    .card-title {
+        font-size: 1.25rem;
+    }
+    
+    h1, .h1 {
+        font-size: 1.8rem;
+    }
+    
+    h2, .h2 {
+        font-size: 1.6rem;
+    }
+}
