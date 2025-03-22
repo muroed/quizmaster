@@ -3,12 +3,12 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8">
-        <h2>Admin Dashboard</h2>
-        <p class="lead">Manage your quizzes and create new ones.</p>
+        <h2>{{ _('admin_dashboard') }}</h2>
+        <p class="lead">{{ _('manage_quizzes') }}</p>
     </div>
     <div class="col-md-4 text-end">
         <a href="{{ url_for('create_quiz') }}" class="btn btn-primary">
-            <i class="bi bi-plus-lg"></i> Create New Quiz
+            <i class="bi bi-plus-lg"></i> {{ _('create_quiz') }}
         </a>
     </div>
 </div>
@@ -20,11 +20,11 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Questions</th>
-                            <th>Created</th>
-                            <th>Actions</th>
+                            <th>{{ _('quiz_title') }}</th>
+                            <th>{{ _('quiz_description') }}</th>
+                            <th>{{ _('questions') }}</th>
+                            <th>{{ _('created_at') }}</th>
+                            <th>{{ _('actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,12 +37,12 @@
                             <td>
                                 <div class="btn-group" role="group">
                                     <a href="{{ url_for('edit_quiz', quiz_id=quiz.id) }}" class="btn btn-sm btn-outline-primary">
-                                        <i class="bi bi-pencil"></i> Edit
+                                        <i class="bi bi-pencil"></i> {{ _('edit_quiz') }}
                                     </a>
                                     
                                     <button type="button" class="btn btn-sm btn-outline-danger" 
                                             data-bs-toggle="modal" data-bs-target="#deleteQuizModal{{ quiz.id }}">
-                                        <i class="bi bi-trash"></i> Delete
+                                        <i class="bi bi-trash"></i> {{ _('delete_quiz') }}
                                     </button>
                                 </div>
                                 
@@ -51,16 +51,16 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteQuizModalLabel">Confirm Delete</h5>
+                                                <h5 class="modal-title" id="deleteQuizModalLabel">{{ _('confirm_delete') }}</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                Are you sure you want to delete the quiz "{{ quiz.title }}"? This action cannot be undone.
+                                                {{ _('delete_quiz_confirm', quiz_title=quiz.title) }}
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('cancel') }}</button>
                                                 <form action="{{ url_for('delete_quiz', quiz_id=quiz.id) }}" method="POST">
-                                                    <button type="submit" class="btn btn-danger">Delete Quiz</button>
+                                                    <button type="submit" class="btn btn-danger">{{ _('delete_quiz') }}</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -74,8 +74,8 @@
             </div>
         {% else %}
             <div class="alert alert-info">
-                <i class="bi bi-info-circle me-2"></i> You haven't created any quizzes yet. 
-                <a href="{{ url_for('create_quiz') }}" class="alert-link">Create your first quiz</a>.
+                <i class="bi bi-info-circle me-2"></i> {{ _('no_quizzes_yet') }} 
+                <a href="{{ url_for('create_quiz') }}" class="alert-link">{{ _('create_first_quiz') }}</a>.
             </div>
         {% endif %}
     </div>
@@ -85,23 +85,23 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Admin Instructions</h5>
+                <h5 class="mb-0">{{ _('admin_instructions') }}</h5>
             </div>
             <div class="card-body">
-                <h6>Creating a Quiz:</h6>
+                <h6>{{ _('creating_quiz_title') }}</h6>
                 <ol>
-                    <li>Click the "Create New Quiz" button above.</li>
-                    <li>Enter a title and optional description for your quiz.</li>
-                    <li>Add questions with various types: text, single-choice, or multiple-choice.</li>
-                    <li>For each question, you can add images, audio, or video content.</li>
-                    <li>Set the correct answers and point values for each question.</li>
+                    <li>{{ _('creating_quiz_step1') }}</li>
+                    <li>{{ _('creating_quiz_step2') }}</li>
+                    <li>{{ _('creating_quiz_step3') }}</li>
+                    <li>{{ _('creating_quiz_step4') }}</li>
+                    <li>{{ _('creating_quiz_step5') }}</li>
                 </ol>
                 
-                <h6>Managing Quizzes:</h6>
+                <h6>{{ _('managing_quizzes_title') }}</h6>
                 <ol>
-                    <li>Edit existing quizzes to update questions, answers, or media.</li>
-                    <li>Delete quizzes that are no longer needed.</li>
-                    <li>View the list of all your quizzes in the table above.</li>
+                    <li>{{ _('managing_quiz_step1') }}</li>
+                    <li>{{ _('managing_quiz_step2') }}</li>
+                    <li>{{ _('managing_quiz_step3') }}</li>
                 </ol>
             </div>
         </div>

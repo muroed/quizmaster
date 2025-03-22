@@ -3,15 +3,15 @@
 {% block content %}
 <div class="row">
     <div class="col-12">
-        <h2>Moderator Panel</h2>
-        <p class="lead">Select a quiz to start a new game or manage ongoing games.</p>
+        <h2>{{ _('moderator_panel') }}</h2>
+        <p class="lead">{{ _('select_quiz') }}</p>
     </div>
 </div>
 
 <!-- Active Games Section -->
 <div class="card mb-4">
     <div class="card-header bg-success text-white">
-        <h5 class="mb-0">Active Games</h5>
+        <h5 class="mb-0">{{ _('active_games') }}</h5>
     </div>
     <div class="card-body">
         {% if games %}
@@ -19,12 +19,12 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Quiz</th>
-                            <th>Game Code</th>
-                            <th>Status</th>
-                            <th>Teams</th>
-                            <th>Created</th>
-                            <th>Action</th>
+                            <th>{{ _('quiz_title') }}</th>
+                            <th>{{ _('game_code') }}</th>
+                            <th>{{ _('status') }}</th>
+                            <th>{{ _('teams') }}</th>
+                            <th>{{ _('created_at') }}</th>
+                            <th>{{ _('action') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,12 +32,12 @@
                         <tr>
                             <td>{{ game.quiz.title }}</td>
                             <td><span class="badge bg-primary">{{ game.game_code }}</span></td>
-                            <td><span class="badge bg-success">{{ game.status }}</span></td>
+                            <td><span class="badge bg-success">{{ _('status_' + game.status) }}</span></td>
                             <td>{{ game.teams|length }}</td>
                             <td>{{ game.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
                             <td>
                                 <a href="{{ url_for('moderator_game', game_id=game.id) }}" class="btn btn-sm btn-outline-primary">
-                                    Manage Game
+                                    {{ _('manage_game') }}
                                 </a>
                             </td>
                         </tr>
@@ -47,8 +47,8 @@
             </div>
         {% else %}
             <div class="alert alert-info">
-                <i class="bi bi-info-circle me-2"></i> There are no active games currently.
-                Start a new game by selecting a quiz below.
+                <i class="bi bi-info-circle me-2"></i> {{ _('no_active_games') }}
+                {{ _('start_new_game_select') }}
             </div>
         {% endif %}
     </div>
@@ -57,7 +57,7 @@
 <!-- Available Quizzes Section -->
 <div class="card">
     <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">Available Quizzes</h5>
+        <h5 class="mb-0">{{ _('available_quizzes') }}</h5>
     </div>
     <div class="card-body">
         {% if quizzes %}
@@ -69,14 +69,14 @@
                             <h5 class="card-title">{{ quiz.title }}</h5>
                             <p class="card-text">{{ quiz.description|truncate(100) }}</p>
                             <div class="d-flex justify-content-between">
-                                <span class="badge bg-secondary">{{ quiz.questions|length }} questions</span>
+                                <span class="badge bg-secondary">{{ quiz.questions|length }} {{ _('questions') }}</span>
                                 <small class="text-muted">{{ quiz.created_at.strftime('%Y-%m-%d') }}</small>
                             </div>
                         </div>
                         <div class="card-footer bg-transparent text-center">
                             <form action="{{ url_for('create_game', quiz_id=quiz.id) }}" method="POST">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-play-fill"></i> Start New Game
+                                    <i class="bi bi-play-fill"></i> {{ _('start_game') }}
                                 </button>
                             </form>
                         </div>
@@ -86,8 +86,8 @@
             </div>
         {% else %}
             <div class="alert alert-warning">
-                <i class="bi bi-exclamation-triangle me-2"></i> There are no quizzes available.
-                Please ask an administrator to create quizzes.
+                <i class="bi bi-exclamation-triangle me-2"></i> {{ _('no_quizzes_available') }}
+                {{ _('ask_admin_create_quizzes') }}
             </div>
         {% endif %}
     </div>
@@ -96,17 +96,17 @@
 <!-- How to Use Section -->
 <div class="card mt-4">
     <div class="card-header bg-info text-white">
-        <h5 class="mb-0">How to Run a Quiz</h5>
+        <h5 class="mb-0">{{ _('moderator_instructions') }}</h5>
     </div>
     <div class="card-body">
         <ol>
-            <li><strong>Start a new game</strong> by selecting one of the available quizzes.</li>
-            <li>After starting a game, you'll get a unique <strong>game code</strong> that participants can use to join.</li>
-            <li>Wait for participants to join your game using the code.</li>
-            <li>When everyone is ready, you can start the quiz and control the flow of questions.</li>
-            <li>Award extra points to teams when necessary, especially for text answers that need manual verification.</li>
-            <li>View the leaderboard at any time to check team rankings.</li>
-            <li>End the game when all questions have been answered or when you decide to conclude the quiz.</li>
+            <li>{{ _('moderator_step1') }}</li>
+            <li>{{ _('moderator_step2') }}</li>
+            <li>{{ _('moderator_step3') }}</li>
+            <li>{{ _('moderator_step4') }}</li>
+            <li>{{ _('moderator_step5') }}</li>
+            <li>{{ _('moderator_step6') }}</li>
+            <li>{{ _('moderator_step7') }}</li>
         </ol>
     </div>
 </div>
