@@ -23,6 +23,9 @@ class Translation:
             'admin_dashboard': 'Admin Dashboard',
             'moderator_panel': 'Moderator Panel',
             'back': 'Back',
+            'back_to_panel': 'Back to Panel',
+            'moderating': 'Moderating',
+            'game': 'Game',
             
             # Auth
             'username': 'Username',
@@ -160,6 +163,9 @@ class Translation:
             'admin_dashboard': 'Панель администратора',
             'moderator_panel': 'Панель модератора',
             'back': 'Назад',
+            'back_to_panel': 'Назад к панели',
+            'moderating': 'Модерирование',
+            'game': 'Игра',
             
             # Auth
             'username': 'Имя пользователя',

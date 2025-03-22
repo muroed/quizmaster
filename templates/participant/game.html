@@ -3,15 +3,15 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8">
-        <h2>Team: {{ team.name }}</h2>
+        <h2>{{ _('team') }}: {{ team.name }}</h2>
         <p class="lead">
-            Quiz: {{ quiz.title }}
-            <span class="badge bg-primary ms-2">Game Code: {{ game.game_code }}</span>
+            {{ _('quiz_title') }}: {{ quiz.title }}
+            <span class="badge bg-primary ms-2">{{ _('game_code') }}: {{ game.game_code }}</span>
         </p>
     </div>
     <div class="col-md-4 text-end">
         <div class="d-flex align-items-center justify-content-end">
-            <h4 class="me-2 mb-0">Score:</h4>
+            <h4 class="me-2 mb-0">{{ _('team_score') }}:</h4>
             <h4><span class="badge bg-success" id="teamScore">{{ team.score }}</span></h4>
         </div>
     </div>

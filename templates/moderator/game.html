@@ -3,17 +3,17 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8">
-        <h2>Moderating: {{ quiz.title }}</h2>
+        <h2>{{ _('moderating') }}: {{ quiz.title }}</h2>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url_for('moderator_select_quiz') }}">Moderator Panel</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Game {{ game.game_code }}</li>
+                <li class="breadcrumb-item"><a href="{{ url_for('moderator_select_quiz') }}">{{ _('moderator_panel') }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ _('game') }} {{ game.game_code }}</li>
             </ol>
         </nav>
     </div>
     <div class="col-md-4 text-end">
         <a href="{{ url_for('moderator_select_quiz') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Back to Panel
+            <i class="bi bi-arrow-left"></i> {{ _('back_to_panel') }}
         </a>
     </div>
 </div>

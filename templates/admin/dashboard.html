@@ -55,7 +55,8 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                {{ _('delete_quiz_confirm', quiz_title=quiz.title) }}
+                                                {% set delete_msg = _('delete_quiz_confirm').replace('{{ quiz_title }}', quiz.title) %}
+                                                {{ delete_msg }}
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('cancel') }}</button>
