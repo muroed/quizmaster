@@ -4,7 +4,7 @@
 
 let teamId = null;
 let gameId = null;
-let socket = null;
+// socket is defined in socket.js
 
 /**
  * Initialize the participant UI

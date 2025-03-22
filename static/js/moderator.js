@@ -5,7 +5,7 @@
 let gameId = null;
 let currentQuestion = 0;
 let totalQuestions = 0;
-let socket = null;
+// socket is defined in socket.js
 
 /**
  * Initialize the moderator UI with game information
