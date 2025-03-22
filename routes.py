@@ -316,7 +316,8 @@ def register_team():
     existing_team = Team.query.filter_by(game_id=game_id, name=team_name).first()
     if existing_team:
         flash('Team name already exists, please choose another name', 'danger')
-        return redirect(url_for('join_game_page', game_id=game_id))
+        game = Game.query.get(game_id)
+        return redirect(url_for('join_game_by_code', game_code=game.game_code))
     
     team = Team(
         game_id=game_id,
